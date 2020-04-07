@@ -1,37 +1,42 @@
 ---
 external help file:
 Module Name: Az.ImageBuilder
-online version: https://docs.microsoft.com/en-us/powershell/module/az.imagebuilder/get-azimagebuildervirtualmachineimagetemplaterunoutput
+online version: https://docs.microsoft.com/en-us/powershell/module/az.imagebuilder/get-azimagebuilderimagebuilder
 schema: 2.0.0
 ---
 
-# Get-AzImageBuilderVirtualMachineImageTemplateRunOutput
+# Get-AzImageBuilderImageBuilder
 
 ## SYNOPSIS
-Get the specified run output for the specified image template resource
+Get information about a virtual machine image template
 
 ## SYNTAX
 
 ### List (Default)
 ```
-Get-AzImageBuilderVirtualMachineImageTemplateRunOutput -ImageTemplateName <String> -ResourceGroupName <String>
- [-SubscriptionId <String[]>] [-DefaultProfile <PSObject>] [<CommonParameters>]
+Get-AzImageBuilderImageBuilder [-SubscriptionId <String[]>] [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
 ### Get
 ```
-Get-AzImageBuilderVirtualMachineImageTemplateRunOutput -ImageTemplateName <String> -ResourceGroupName <String>
- -RunOutputName <String> [-SubscriptionId <String[]>] [-DefaultProfile <PSObject>] [<CommonParameters>]
+Get-AzImageBuilderImageBuilder -ImageTemplateName <String> -ResourceGroupName <String>
+ [-SubscriptionId <String[]>] [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
 ### GetViaIdentity
 ```
-Get-AzImageBuilderVirtualMachineImageTemplateRunOutput -InputObject <IImageBuilderIdentity>
+Get-AzImageBuilderImageBuilder -InputObject <IImageBuilderIdentity> [-DefaultProfile <PSObject>]
+ [<CommonParameters>]
+```
+
+### List1
+```
+Get-AzImageBuilderImageBuilder -ResourceGroupName <String> [-SubscriptionId <String[]>]
  [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Get the specified run output for the specified image template resource
+Get information about a virtual machine image template
 
 ## EXAMPLES
 
@@ -76,7 +81,7 @@ The name of the image Template
 
 ```yaml
 Type: System.String
-Parameter Sets: Get, List
+Parameter Sets: Get
 Aliases:
 
 Required: True
@@ -109,23 +114,7 @@ The name of the resource group.
 
 ```yaml
 Type: System.String
-Parameter Sets: Get, List
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-Dynamic: False
-```
-
-### -RunOutputName
-The name of the run output
-
-```yaml
-Type: System.String
-Parameter Sets: Get
+Parameter Sets: Get, List1
 Aliases:
 
 Required: True
@@ -142,7 +131,7 @@ The subscription Id forms part of the URI for every service call.
 
 ```yaml
 Type: System.String[]
-Parameter Sets: Get, List
+Parameter Sets: Get, List, List1
 Aliases:
 
 Required: False
@@ -162,7 +151,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.IRunOutput
+### Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.IImageTemplate
 
 ## ALIASES
 

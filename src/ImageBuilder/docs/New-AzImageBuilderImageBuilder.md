@@ -1,11 +1,11 @@
 ---
 external help file:
 Module Name: Az.ImageBuilder
-online version: https://docs.microsoft.com/en-us/powershell/module/az.imagebuilder/new-azimagebuildervirtualmachineimagetemplate
+online version: https://docs.microsoft.com/en-us/powershell/module/az.imagebuilder/new-azimagebuilderimagebuilder
 schema: 2.0.0
 ---
 
-# New-AzImageBuilderVirtualMachineImageTemplate
+# New-AzImageBuilderImageBuilder
 
 ## SYNOPSIS
 Create or update a virtual machine image template
@@ -14,11 +14,11 @@ Create or update a virtual machine image template
 
 ### CreateExpanded (Default)
 ```
-New-AzImageBuilderVirtualMachineImageTemplate -ImageTemplateName <String> -ResourceGroupName <String>
- -Location <String> [-SubscriptionId <String>] [-BuildTimeoutInMinute <Int32>]
- [-Customize <IImageTemplateCustomizer[]>] [-Distribute <IImageTemplateDistributor[]>]
- [-IdentityType <ResourceIdentityType>] [-IdentityUserAssignedIdentity <Hashtable>]
- [-LastRunStatusEndTime <DateTime>] [-LastRunStatusMessage <String>] [-LastRunStatusRunState <RunState>]
+New-AzImageBuilderImageBuilder -ImageTemplateName <String> -ResourceGroupName <String> -Location <String>
+ [-SubscriptionId <String>] [-BuildTimeoutInMinute <Int32>] [-Customize <IImageTemplateCustomizer[]>]
+ [-Distribute <IImageTemplateDistributor[]>] [-IdentityType <ResourceIdentityType>]
+ [-IdentityUserAssignedIdentity <Hashtable>] [-LastRunStatusEndTime <DateTime>]
+ [-LastRunStatusMessage <String>] [-LastRunStatusRunState <RunState>]
  [-LastRunStatusRunSubState <RunSubState>] [-LastRunStatusStartTime <DateTime>]
  [-ProvisioningErrorCode <ProvisioningErrorCode>] [-ProvisioningErrorMessage <String>] [-SourceType <String>]
  [-Tag <Hashtable>] [-VMProfileOsdiskSizeGb <Int32>] [-VMProfileVmsize <String>]
@@ -28,20 +28,20 @@ New-AzImageBuilderVirtualMachineImageTemplate -ImageTemplateName <String> -Resou
 
 ### Create
 ```
-New-AzImageBuilderVirtualMachineImageTemplate -ImageTemplateName <String> -ResourceGroupName <String>
+New-AzImageBuilderImageBuilder -ImageTemplateName <String> -ResourceGroupName <String>
  -Parameter <IImageTemplate> [-SubscriptionId <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait]
  [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ### CreateViaIdentity
 ```
-New-AzImageBuilderVirtualMachineImageTemplate -InputObject <IImageBuilderIdentity> -Parameter <IImageTemplate>
+New-AzImageBuilderImageBuilder -InputObject <IImageBuilderIdentity> -Parameter <IImageTemplate>
  [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ### CreateViaIdentityExpanded
 ```
-New-AzImageBuilderVirtualMachineImageTemplate -InputObject <IImageBuilderIdentity> -Location <String>
+New-AzImageBuilderImageBuilder -InputObject <IImageBuilderIdentity> -Location <String>
  [-BuildTimeoutInMinute <Int32>] [-Customize <IImageTemplateCustomizer[]>]
  [-Distribute <IImageTemplateDistributor[]>] [-IdentityType <ResourceIdentityType>]
  [-IdentityUserAssignedIdentity <Hashtable>] [-LastRunStatusEndTime <DateTime>]

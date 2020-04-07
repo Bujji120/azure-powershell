@@ -13,24 +13,7 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 
-<#
-.Synopsis
-Create or update a virtual machine image template
-.Description
-Create or update a virtual machine image template
-.Example
-PS C:\> {{ Add code here }}
-
-{{ Add output here }}
-.Example
-PS C:\> {{ Add code here }}
-
-{{ Add output here }}
-
-.Link
-https://docs.microsoft.com/en-us/powershell/module/az.imagebuilder/update-azimagebuildervirtualmachineimagetemplate
-#>
-function Update-AzImageBuilderVirtualMachineImageTemplate {
+function New-AzImageBuilder {
     [OutputType([Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.IImageTemplate])]
     [CmdletBinding(DefaultParameterSetName='Name', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
     param(
@@ -84,6 +67,129 @@ function Update-AzImageBuilderVirtualMachineImageTemplate {
         # To construct, see NOTES section for DISTRIBUTE properties and create a hash table.
         ${Distribute},
     
+        #region CustomizerCommon
+        [Parameter(ParameterSetName='ManagerdImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${CustomizerName},
+        [Parameter(ParameterSetName='ManagerdImage', Mandatory)]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${CustomizerType},
+        #endregion CustomizerCommon
+    
+        #region FileCustomizer
+        [Parameter(ParameterSetName='ManagerdImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${FileCustomizerDestination},
+        [Parameter(ParameterSetName='ManagerdImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${FileCustomizerSha256Checksum},
+        [Parameter(ParameterSetName='ManagerdImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${FileCustomizerSourceUri},
+        #endregion FileCustomizer
+    
+        #region PowerShellCustomizer
+        [Parameter(ParameterSetName='ManagerdImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string[]]
+        ${PowerShellCustomizerInline},
+        [Parameter(ParameterSetName='ManagerdImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [Boolean]
+        ${PowerShellCustomizerRunElevated},
+        [Parameter(ParameterSetName='ManagerdImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${PowerShellCustomizerScriptUri},
+        [Parameter(ParameterSetName='ManagerdImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${PowerShellCustomizerSha256Checksum},
+        [Parameter(ParameterSetName='ManagerdImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [int[]]
+        ${PowerShellCustomizerValidExitCode},
+        #endregion PowerShellCustomizer
+    
+        #region WindowsUpdateCustomizer
+        [Parameter(ParameterSetName='ManagerdImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string[]]
+        ${WindowsUpdateCustomizerFilter},
+        [Parameter(ParameterSetName='ManagerdImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${WindowsUpdateCustomizerSearchCriterion},
+        [Parameter(ParameterSetName='ManagerdImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [int]
+        ${WindowsUpdateCustomizerUpdateLimit},
+        #endregion WindowsUpdateCustomizer
+    
+        #region RestartCustomizer
+        [Parameter(ParameterSetName='ManagerdImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${RestartCheckCommand},
+        [Parameter(ParameterSetName='ManagerdImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${RestartCommand},
+        [Parameter(ParameterSetName='ManagerdImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${RestartTimeout},
+        #endregion RestartCustomizer
+    
+        #region ShellCustomizer
+        [Parameter(ParameterSetName='ManagerdImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string[]]
+        ${ShellCustomizerInline},
+        [Parameter(ParameterSetName='ManagerdImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${ShellCustomizerScriptUri},
+        [Parameter(ParameterSetName='ManagerdImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${ShellCustomizerSha256Checksum},
+        #endregion ShellCustomizer
+    
+        #region VhdDistributor
+        #endregion VhdDistributor
+    
+        #region ManagedImageDistributor
+        [Parameter(ParameterSetName='ManagerdImage', Mandatory)]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${ImageId},
+        #endregion ManagedImageDistributor
+    
+        #region SharedImageDistributor
+        [Parameter(ParameterSetName='SharedImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [Boolean]
+        ${ExcludeFromLatest},
+        [Parameter(ParameterSetName='SharedImage', Mandatory)]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string[]]
+        ${ReplicationRegion},
+        [Parameter(ParameterSetName='SharedImage', Mandatory)]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${GalleryImageId},
+        [Parameter(ParameterSetName='SharedImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Support.SharedImageStorageAccountType]
+        ${StorageAccountType},
+        #endregion SharedImageDistributor
+
         [ArgumentCompleter([Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Support.ResourceIdentityType])]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Support.ResourceIdentityType]
@@ -164,6 +270,7 @@ function Update-AzImageBuilderVirtualMachineImageTemplate {
         # Resource id of a pre-existing subnet.
         ${VnetConfigSubnetId},
     
+        #region HideParameter
         [Parameter()]
         [Alias('AzureRMContext', 'AzureCredential')]
         [ValidateNotNull()]
@@ -222,12 +329,31 @@ function Update-AzImageBuilderVirtualMachineImageTemplate {
         [System.Management.Automation.SwitchParameter]
         # Use the default credentials for the proxy
         ${ProxyUseDefaultCredentials}
+        #endregion HideParameter
     )
     
     process {
         try {
 
-            VMProfileOsdiskSizeInGb
+            $Parameter = [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.ImageTemplate]::New()
+            $Parameter.BuildTimeoutInMinute = 
+            $Parameter.Customize = 
+            $Parameter.Distribute = 
+            $Parameter.IdentityType = 
+            $Parameter.IdentityUserAssignedIdentity = 
+            $Parameter.LastRunStatusEndTime = 
+            $Parameter.LastRunStatusMessage = 
+            $Parameter.LastRunStatusRunState = 
+            $Parameter.LastRunStatusRunSubState = 
+            $Parameter.LastRunStatusStartTime = 
+            $Parameter.ProvisioningErrorCode = 
+            $Parameter.ProvisioningErrorMessage = 
+            $Parameter.ProvisioningState = 
+            $Parameter.SourceType = 
+            $Parameter.VMProfileOsdiskSizeGb = 
+            $Parameter.VMProfileVmsize = 
+            $Parameter.VnetConfigSubnetId = 
+
             
             if ($PSBoundParameters.ContainsKey('VMProfileOsdiskSizeInGb')) {
                 $PSBoundParameters.Add('VMProfileOsdiskSizeGb', $PSBoundParameters['VMProfileOsdiskSizeInGb'])
@@ -237,7 +363,7 @@ function Update-AzImageBuilderVirtualMachineImageTemplate {
                 $PSBoundParameters.Add('VMProfileVmsize', $PSBoundParameters['VMProfileVmSize'])
                 $null = $PSBoundParameters.Remove('VMProfileVmSize')
             }
-            Az.ImageBuilder.internal\Update-AzImageBuilder @PSBoundParameters
+            Az.ImageBuilder.internal\New-AzImageBuilderAzImageBuilder @PSBoundParameters
         } catch {
             throw
         }

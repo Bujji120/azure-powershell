@@ -58,10 +58,19 @@ module-version: 4.0.0
 directive:
   - where:
       verb: Set
-    set:
-      verb: Update
+      subject: VirtualMachineImageTemplate
+    remove: true
   - where:
-      subject: ImageBuilderVirtualMachineImageTemplate
+      subject: VirtualMachineImageTemplateRunOutput
+    set:
+      subject: RunOutput
+  - where:
+      subject: VirtualMachineImageTemplate
     set:
       subject: ImageBuilder
+      subjectPrefix: AAA
+  - where:
+      verb: Update
+      subject: ImageBuilder
+    hide: true
 ```

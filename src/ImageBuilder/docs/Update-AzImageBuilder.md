@@ -5,51 +5,36 @@ online version: https://docs.microsoft.com/en-us/powershell/module/az.imagebuild
 schema: 2.0.0
 ---
 
-# Update-AzImageBuilderVirtualMachineImageTemplate
+# Update-AzImageBuilder
 
 ## SYNOPSIS
 Create or update a virtual machine image template
 
 ## SYNTAX
 
-### UpdateExpanded (Default)
+### Name (Default)
 ```
-Update-AzImageBuilderVirtualMachineImageTemplate -ImageTemplateName <String> -ResourceGroupName <String>
- -Location <String> [-SubscriptionId <String>] [-BuildTimeoutInMinute <Int32>]
- [-Customize <IImageTemplateCustomizer[]>] [-Distribute <IImageTemplateDistributor[]>]
- [-IdentityType <ResourceIdentityType>] [-IdentityUserAssignedIdentity <Hashtable>]
- [-LastRunStatusEndTime <DateTime>] [-LastRunStatusMessage <String>] [-LastRunStatusRunState <RunState>]
- [-LastRunStatusRunSubState <RunSubState>] [-LastRunStatusStartTime <DateTime>]
- [-ProvisioningErrorCode <ProvisioningErrorCode>] [-ProvisioningErrorMessage <String>] [-SourceType <String>]
- [-Tag <Hashtable>] [-VMProfileOsdiskSizeGb <Int32>] [-VMProfileVmsize <String>]
- [-VnetConfigSubnetId <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
- [<CommonParameters>]
-```
-
-### Update
-```
-Update-AzImageBuilderVirtualMachineImageTemplate -ImageTemplateName <String> -ResourceGroupName <String>
- -Parameter <IImageTemplate> [-SubscriptionId <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait]
- [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### UpdateViaIdentity
-```
-Update-AzImageBuilderVirtualMachineImageTemplate -InputObject <IImageBuilderIdentity>
- -Parameter <IImageTemplate> [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
- [<CommonParameters>]
-```
-
-### UpdateViaIdentityExpanded
-```
-Update-AzImageBuilderVirtualMachineImageTemplate -InputObject <IImageBuilderIdentity> -Location <String>
+Update-AzImageBuilder -ImageTemplateName <String> -ResourceGroupName <String> [-SubscriptionId <String>]
  [-BuildTimeoutInMinute <Int32>] [-Customize <IImageTemplateCustomizer[]>]
  [-Distribute <IImageTemplateDistributor[]>] [-IdentityType <ResourceIdentityType>]
  [-IdentityUserAssignedIdentity <Hashtable>] [-LastRunStatusEndTime <DateTime>]
  [-LastRunStatusMessage <String>] [-LastRunStatusRunState <RunState>]
- [-LastRunStatusRunSubState <RunSubState>] [-LastRunStatusStartTime <DateTime>]
+ [-LastRunStatusRunSubState <RunSubState>] [-LastRunStatusStartTime <DateTime>] [-Location <String>]
  [-ProvisioningErrorCode <ProvisioningErrorCode>] [-ProvisioningErrorMessage <String>] [-SourceType <String>]
- [-Tag <Hashtable>] [-VMProfileOsdiskSizeGb <Int32>] [-VMProfileVmsize <String>]
+ [-Tag <Hashtable>] [-VMProfileOsdiskSizeInGb <Int32>] [-VMProfileVmSize <String>]
+ [-VnetConfigSubnetId <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
+ [<CommonParameters>]
+```
+
+### InputObject
+```
+Update-AzImageBuilder -InputObject <IImageBuilderIdentity> [-BuildTimeoutInMinute <Int32>]
+ [-Customize <IImageTemplateCustomizer[]>] [-Distribute <IImageTemplateDistributor[]>]
+ [-IdentityType <ResourceIdentityType>] [-IdentityUserAssignedIdentity <Hashtable>]
+ [-LastRunStatusEndTime <DateTime>] [-LastRunStatusMessage <String>] [-LastRunStatusRunState <RunState>]
+ [-LastRunStatusRunSubState <RunSubState>] [-LastRunStatusStartTime <DateTime>] [-Location <String>]
+ [-ProvisioningErrorCode <ProvisioningErrorCode>] [-ProvisioningErrorMessage <String>] [-SourceType <String>]
+ [-Tag <Hashtable>] [-VMProfileOsdiskSizeInGb <Int32>] [-VMProfileVmSize <String>]
  [-VnetConfigSubnetId <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
  [<CommonParameters>]
 ```
@@ -59,23 +44,19 @@ Create or update a virtual machine image template
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### -------------------------- EXAMPLE 1 --------------------------
 ```powershell
-PS C:\> {{ Add code here }}
-
-{{ Add output here }}
+{{ Add code here }}
 ```
 
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
-```powershell
-PS C:\> {{ Add code here }}
-
 {{ Add output here }}
+
+### -------------------------- EXAMPLE 2 --------------------------
+```powershell
+{{ Add code here }}
 ```
 
-{{ Add description here }}
+{{ Add output here }}
 
 ## PARAMETERS
 
@@ -101,7 +82,7 @@ Omit or specify 0 to use the default (4 hours).
 
 ```yaml
 Type: System.Int32
-Parameter Sets: UpdateExpanded, UpdateViaIdentityExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -118,7 +99,7 @@ To construct, see NOTES section for CUSTOMIZE properties and create a hash table
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.IImageTemplateCustomizer[]
-Parameter Sets: UpdateExpanded, UpdateViaIdentityExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -151,7 +132,7 @@ To construct, see NOTES section for DISTRIBUTE properties and create a hash tabl
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.IImageTemplateDistributor[]
-Parameter Sets: UpdateExpanded, UpdateViaIdentityExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -168,7 +149,7 @@ The type 'None' will remove any identities from the image template.
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Support.ResourceIdentityType
-Parameter Sets: UpdateExpanded, UpdateViaIdentityExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -185,7 +166,7 @@ The user identity dictionary key references will be ARM resource ids in the form
 
 ```yaml
 Type: System.Collections.Hashtable
-Parameter Sets: UpdateExpanded, UpdateViaIdentityExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -201,7 +182,7 @@ The name of the image Template
 
 ```yaml
 Type: System.String
-Parameter Sets: Update, UpdateExpanded
+Parameter Sets: Name
 Aliases:
 
 Required: True
@@ -218,7 +199,7 @@ To construct, see NOTES section for INPUTOBJECT properties and create a hash tab
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.IImageBuilderIdentity
-Parameter Sets: UpdateViaIdentity, UpdateViaIdentityExpanded
+Parameter Sets: InputObject
 Aliases:
 
 Required: True
@@ -234,7 +215,7 @@ End time of the last run (UTC)
 
 ```yaml
 Type: System.DateTime
-Parameter Sets: UpdateExpanded, UpdateViaIdentityExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -250,7 +231,7 @@ Verbose information about the last run state
 
 ```yaml
 Type: System.String
-Parameter Sets: UpdateExpanded, UpdateViaIdentityExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -266,7 +247,7 @@ State of the last run
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Support.RunState
-Parameter Sets: UpdateExpanded, UpdateViaIdentityExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -282,7 +263,7 @@ Sub-state of the last run
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Support.RunSubState
-Parameter Sets: UpdateExpanded, UpdateViaIdentityExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -298,7 +279,7 @@ Start time of the last run (UTC)
 
 ```yaml
 Type: System.DateTime
-Parameter Sets: UpdateExpanded, UpdateViaIdentityExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -314,10 +295,10 @@ Resource location
 
 ```yaml
 Type: System.String
-Parameter Sets: UpdateExpanded, UpdateViaIdentityExpanded
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -341,29 +322,12 @@ Accept wildcard characters: False
 Dynamic: False
 ```
 
-### -Parameter
-Image template is an ARM resource managed by Microsoft.VirtualMachineImages provider
-To construct, see NOTES section for PARAMETER properties and create a hash table.
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.IImageTemplate
-Parameter Sets: Update, UpdateViaIdentity
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-Dynamic: False
-```
-
 ### -ProvisioningErrorCode
 Error code of the provisioning failure
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Support.ProvisioningErrorCode
-Parameter Sets: UpdateExpanded, UpdateViaIdentityExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -379,7 +343,7 @@ Verbose error message about the provisioning failure
 
 ```yaml
 Type: System.String
-Parameter Sets: UpdateExpanded, UpdateViaIdentityExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -395,7 +359,7 @@ The name of the resource group.
 
 ```yaml
 Type: System.String
-Parameter Sets: Update, UpdateExpanded
+Parameter Sets: Name
 Aliases:
 
 Required: True
@@ -411,7 +375,7 @@ Specifies the type of source image you want to start with.
 
 ```yaml
 Type: System.String
-Parameter Sets: UpdateExpanded, UpdateViaIdentityExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -428,7 +392,7 @@ The subscription Id forms part of the URI for every service call.
 
 ```yaml
 Type: System.String
-Parameter Sets: Update, UpdateExpanded
+Parameter Sets: Name
 Aliases:
 
 Required: False
@@ -444,7 +408,7 @@ Resource tags
 
 ```yaml
 Type: System.Collections.Hashtable
-Parameter Sets: UpdateExpanded, UpdateViaIdentityExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -455,13 +419,13 @@ Accept wildcard characters: False
 Dynamic: False
 ```
 
-### -VMProfileOsdiskSizeGb
+### -VMProfileOsdiskSizeInGb
 Size of the OS disk in GB.
 Omit or specify 0 to use Azure's default OS disk size.
 
 ```yaml
 Type: System.Int32
-Parameter Sets: UpdateExpanded, UpdateViaIdentityExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -472,13 +436,13 @@ Accept wildcard characters: False
 Dynamic: False
 ```
 
-### -VMProfileVmsize
+### -VMProfileVmSize
 Size of the virtual machine used to build, customize and capture images.
 Omit or specify empty string to use the default (Standard_D1_v2).
 
 ```yaml
 Type: System.String
-Parameter Sets: UpdateExpanded, UpdateViaIdentityExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -494,7 +458,7 @@ Resource id of a pre-existing subnet.
 
 ```yaml
 Type: System.String
-Parameter Sets: UpdateExpanded, UpdateViaIdentityExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -543,8 +507,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.IImageTemplate
-
 ### Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.IImageBuilderIdentity
 
 ## OUTPUTS
@@ -574,57 +536,6 @@ To create the parameters described below, construct a hash table containing the 
   - `[ResourceGroupName <String>]`: The name of the resource group.
   - `[RunOutputName <String>]`: The name of the run output
   - `[SubscriptionId <String>]`: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription Id forms part of the URI for every service call.
-
-#### PARAMETER <IImageTemplate>: Image template is an ARM resource managed by Microsoft.VirtualMachineImages provider
-  - `Location <String>`: Resource location
-  - `Distribute <IImageTemplateDistributor[]>`: The distribution targets where the image output needs to go to.
-    - `RunOutputName <String>`: The name to be used for the associated RunOutput.
-    - `Type <String>`: Type of distribution.
-    - `ImageId <String>`: Resource Id of the Managed Disk Image
-    - `Location <String>`: Azure location for the image, should match if image already exists
-    - `GalleryImageId <String>`: Resource Id of the Shared Image Gallery image
-    - `ReplicationRegion <String[]>`: A list of regions that the image will be replicated to
-    - `[ArtifactTag <IImageTemplateDistributorArtifactTags>]`: Tags that will be applied to the artifact once it has been created/updated by the distributor.
-      - `[(Any) <String>]`: This indicates any property can be added to this object.
-    - `[ExcludeFromLatest <Boolean?>]`: Flag that indicates whether created image version should be excluded from latest. Omit to use the default (false).
-    - `[StorageAccountType <SharedImageStorageAccountType?>]`: Storage account type to be used to store the shared image. Omit to use the default (Standard_LRS).
-  - `SourceType <String>`: Specifies the type of source image you want to start with.
-  - `[Tag <IResourceTags>]`: Resource tags
-    - `[(Any) <String>]`: This indicates any property can be added to this object.
-  - `[BuildTimeoutInMinute <Int32?>]`: Maximum duration to wait while building the image template. Omit or specify 0 to use the default (4 hours).
-  - `[Customize <IImageTemplateCustomizer[]>]`: Specifies the properties used to describe the customization steps of the image, like Image source etc
-    - `Type <String>`: The type of customization tool you want to use on the Image. For example, "Shell" can be shell customizer
-    - `[Name <String>]`: Friendly Name to provide context on what this customization step does
-    - `[Inline <String[]>]`: Array of shell commands to execute
-    - `[ScriptUri <String>]`: URI of the shell script to be run for customizing. It can be a github link, SAS URI for Azure Storage, etc
-    - `[Sha256Checksum <String>]`: SHA256 checksum of the shell script provided in the scriptUri field
-    - `[RestartCheckCommand <String>]`: Command to check if restart succeeded [Default: '']
-    - `[RestartCommand <String>]`: Command to execute the restart [Default: 'shutdown /r /f /t 0 /c "packer restart"']
-    - `[RestartTimeout <String>]`: Restart timeout specified as a string of magnitude and unit, e.g. '5m' (5 minutes) or '2h' (2 hours) [Default: '5m']
-    - `[Filter <String[]>]`: Array of filters to select updates to apply. Omit or specify empty array to use the default (no filter). Refer to above link for examples and detailed description of this field.
-    - `[SearchCriterion <String>]`: Criteria to search updates. Omit or specify empty string to use the default (search all). Refer to above link for examples and detailed description of this field.
-    - `[UpdateLimit <Int32?>]`: Maximum number of updates to apply at a time. Omit or specify 0 to use the default (1000)
-    - `[Inline <String[]>]`: Array of PowerShell commands to execute
-    - `[RunElevated <Boolean?>]`: If specified, the PowerShell script will be run with elevated privileges
-    - `[ScriptUri <String>]`: URI of the PowerShell script to be run for customizing. It can be a github link, SAS URI for Azure Storage, etc
-    - `[Sha256Checksum <String>]`: SHA256 checksum of the power shell script provided in the scriptUri field above
-    - `[ValidExitCode <Int32[]>]`: Valid exit codes for the PowerShell script. [Default: 0]
-    - `[Destination <String>]`: The absolute path to a file (with nested directory structures already created) where the file (from sourceUri) will be uploaded to in the VM
-    - `[Sha256Checksum <String>]`: SHA256 checksum of the file provided in the sourceUri field above
-    - `[SourceUri <String>]`: The URI of the file to be uploaded for customizing the VM. It can be a github link, SAS URI for Azure Storage, etc
-  - `[IdentityType <ResourceIdentityType?>]`: The type of identity used for the image template. The type 'None' will remove any identities from the image template.
-  - `[IdentityUserAssignedIdentity <IImageTemplateIdentityUserAssignedIdentities>]`: The list of user identities associated with the image template. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-    - `[(Any) <IComponentsVrq145SchemasImagetemplateidentityPropertiesUserassignedidentitiesAdditionalproperties>]`: This indicates any property can be added to this object.
-  - `[LastRunStatusEndTime <DateTime?>]`: End time of the last run (UTC)
-  - `[LastRunStatusMessage <String>]`: Verbose information about the last run state
-  - `[LastRunStatusRunState <RunState?>]`: State of the last run
-  - `[LastRunStatusRunSubState <RunSubState?>]`: Sub-state of the last run
-  - `[LastRunStatusStartTime <DateTime?>]`: Start time of the last run (UTC)
-  - `[ProvisioningErrorCode <ProvisioningErrorCode?>]`: Error code of the provisioning failure
-  - `[ProvisioningErrorMessage <String>]`: Verbose error message about the provisioning failure
-  - `[VMProfileOsdiskSizeGb <Int32?>]`: Size of the OS disk in GB. Omit or specify 0 to use Azure's default OS disk size.
-  - `[VMProfileVmsize <String>]`: Size of the virtual machine used to build, customize and capture images. Omit or specify empty string to use the default (Standard_D1_v2).
-  - `[VnetConfigSubnetId <String>]`: Resource id of a pre-existing subnet.
 
 ## RELATED LINKS
 

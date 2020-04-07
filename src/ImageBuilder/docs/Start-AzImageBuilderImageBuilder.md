@@ -1,32 +1,32 @@
 ---
 external help file:
 Module Name: Az.ImageBuilder
-online version: https://docs.microsoft.com/en-us/powershell/module/az.imagebuilder/remove-azimagebuildervirtualmachineimagetemplate
+online version: https://docs.microsoft.com/en-us/powershell/module/az.imagebuilder/start-azimagebuilderimagebuilder
 schema: 2.0.0
 ---
 
-# Remove-AzImageBuilderVirtualMachineImageTemplate
+# Start-AzImageBuilderImageBuilder
 
 ## SYNOPSIS
-Delete a virtual machine image template
+Create artifacts from a existing image template
 
 ## SYNTAX
 
-### Delete (Default)
+### Run (Default)
 ```
-Remove-AzImageBuilderVirtualMachineImageTemplate -ImageTemplateName <String> -ResourceGroupName <String>
+Start-AzImageBuilderImageBuilder -ImageTemplateName <String> -ResourceGroupName <String>
  [-SubscriptionId <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-PassThru] [-Confirm] [-WhatIf]
  [<CommonParameters>]
 ```
 
-### DeleteViaIdentity
+### RunViaIdentity
 ```
-Remove-AzImageBuilderVirtualMachineImageTemplate -InputObject <IImageBuilderIdentity>
- [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
+Start-AzImageBuilderImageBuilder -InputObject <IImageBuilderIdentity> [-DefaultProfile <PSObject>] [-AsJob]
+ [-NoWait] [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Delete a virtual machine image template
+Create artifacts from a existing image template
 
 ## EXAMPLES
 
@@ -87,7 +87,7 @@ The name of the image Template
 
 ```yaml
 Type: System.String
-Parameter Sets: Delete
+Parameter Sets: Run
 Aliases:
 
 Required: True
@@ -104,7 +104,7 @@ To construct, see NOTES section for INPUTOBJECT properties and create a hash tab
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.IImageBuilderIdentity
-Parameter Sets: DeleteViaIdentity
+Parameter Sets: RunViaIdentity
 Aliases:
 
 Required: True
@@ -152,7 +152,7 @@ The name of the resource group.
 
 ```yaml
 Type: System.String
-Parameter Sets: Delete
+Parameter Sets: Run
 Aliases:
 
 Required: True
@@ -169,7 +169,7 @@ The subscription Id forms part of the URI for every service call.
 
 ```yaml
 Type: System.String
-Parameter Sets: Delete
+Parameter Sets: Run
 Aliases:
 
 Required: False
