@@ -55,18 +55,6 @@ function New-AzImageBuilder {
         # Omit or specify 0 to use the default (4 hours).
         ${BuildTimeoutInMinute},
     
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.IImageTemplateCustomizer[]]
-        # Specifies the properties used to describe the customization steps of the image, like Image source etc
-        # To construct, see NOTES section for CUSTOMIZE properties and create a hash table.
-        ${Customize},
-    
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.IImageTemplateDistributor[]]
-        # The distribution targets where the image output needs to go to.
-        # To construct, see NOTES section for DISTRIBUTE properties and create a hash table.
-        ${Distribute},
-    
         #region CustomizerCommon
         [Parameter(ParameterSetName='ManagerdImage')]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
