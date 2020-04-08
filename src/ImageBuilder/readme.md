@@ -54,6 +54,7 @@ input-file:
 
 title: ImageBuilder
 module-version: 4.0.0
+inlining-threshold: 40
 
 directive:
   - where:
