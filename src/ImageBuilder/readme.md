@@ -53,8 +53,7 @@ input-file:
   - $(repo)/specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2020-02-14/imagebuilder.json
 
 title: ImageBuilder
-module-version: 4.0.0
-inlining-threshold: 40
+module-version: 0.0.1
 
 directive:
   - where:
@@ -69,9 +68,11 @@ directive:
       subject: VirtualMachineImageTemplate
     set:
       subject: ImageBuilder
-      subjectPrefix: AAA
   - where:
-      verb: Update
+      verb: New
       subject: ImageBuilder
     hide: true
+  - where:
+      variant: ^Create$|^CreateViaIdentity$|^CreateViaIdentityExpanded$|^Update$|^UpdateViaIdentity$
+    remove: true
 ```

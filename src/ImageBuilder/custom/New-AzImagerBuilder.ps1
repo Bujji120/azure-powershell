@@ -15,34 +15,27 @@
 
 function New-AzImageBuilder {
     [OutputType([Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.IImageTemplate])]
-    [CmdletBinding(DefaultParameterSetName='Name', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+    [CmdletBinding(PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
     param(
-        [Parameter(ParameterSetName='Name', Mandatory)]
+        [Parameter(Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Path')]
         [System.String]
         # The name of the image Template
         ${ImageTemplateName},
     
-        [Parameter(ParameterSetName='Name', Mandatory)]
+        [Parameter(Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Path')]
         [System.String]
         # The name of the resource group.
         ${ResourceGroupName},
     
-        [Parameter(ParameterSetName='Name')]
+        [Parameter()]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Path')]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
         [System.String]
         # Subscription credentials which uniquely identify Microsoft Azure subscription.
         # The subscription Id forms part of the URI for every service call.
         ${SubscriptionId},
-    
-        [Parameter(ParameterSetName='InputObject', Mandatory, ValueFromPipeline)]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Path')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.IImageBuilderIdentity]
-        # Identity Parameter
-        # To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
-        ${InputObject},
     
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
         [System.String]
@@ -54,129 +47,18 @@ function New-AzImageBuilder {
         # Maximum duration to wait while building the image template.
         # Omit or specify 0 to use the default (4 hours).
         ${BuildTimeoutInMinute},
-    
-        #region CustomizerCommon
-        [Parameter(ParameterSetName='ManagerdImage')]
+
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string]
-        ${CustomizerName},
-        [Parameter(ParameterSetName='ManagerdImage', Mandatory)]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.IImageTemplateCustomizer[]]
+        # Specifies the properties used to describe the customization steps of the image, like Image source etc
+        # To construct, see NOTES section for CUSTOMIZE properties and create a hash table.
+        ${Customize},
+
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string]
-        ${CustomizerType},
-        #endregion CustomizerCommon
-    
-        #region FileCustomizer
-        [Parameter(ParameterSetName='ManagerdImage')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string]
-        ${FileCustomizerDestination},
-        [Parameter(ParameterSetName='ManagerdImage')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string]
-        ${FileCustomizerSha256Checksum},
-        [Parameter(ParameterSetName='ManagerdImage')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string]
-        ${FileCustomizerSourceUri},
-        #endregion FileCustomizer
-    
-        #region PowerShellCustomizer
-        [Parameter(ParameterSetName='ManagerdImage')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string[]]
-        ${PowerShellCustomizerInline},
-        [Parameter(ParameterSetName='ManagerdImage')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [Boolean]
-        ${PowerShellCustomizerRunElevated},
-        [Parameter(ParameterSetName='ManagerdImage')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string]
-        ${PowerShellCustomizerScriptUri},
-        [Parameter(ParameterSetName='ManagerdImage')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string]
-        ${PowerShellCustomizerSha256Checksum},
-        [Parameter(ParameterSetName='ManagerdImage')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [int[]]
-        ${PowerShellCustomizerValidExitCode},
-        #endregion PowerShellCustomizer
-    
-        #region WindowsUpdateCustomizer
-        [Parameter(ParameterSetName='ManagerdImage')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string[]]
-        ${WindowsUpdateCustomizerFilter},
-        [Parameter(ParameterSetName='ManagerdImage')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string]
-        ${WindowsUpdateCustomizerSearchCriterion},
-        [Parameter(ParameterSetName='ManagerdImage')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [int]
-        ${WindowsUpdateCustomizerUpdateLimit},
-        #endregion WindowsUpdateCustomizer
-    
-        #region RestartCustomizer
-        [Parameter(ParameterSetName='ManagerdImage')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string]
-        ${RestartCheckCommand},
-        [Parameter(ParameterSetName='ManagerdImage')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string]
-        ${RestartCommand},
-        [Parameter(ParameterSetName='ManagerdImage')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string]
-        ${RestartTimeout},
-        #endregion RestartCustomizer
-    
-        #region ShellCustomizer
-        [Parameter(ParameterSetName='ManagerdImage')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string[]]
-        ${ShellCustomizerInline},
-        [Parameter(ParameterSetName='ManagerdImage')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string]
-        ${ShellCustomizerScriptUri},
-        [Parameter(ParameterSetName='ManagerdImage')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string]
-        ${ShellCustomizerSha256Checksum},
-        #endregion ShellCustomizer
-    
-        #region VhdDistributor
-        #endregion VhdDistributor
-    
-        #region ManagedImageDistributor
-        [Parameter(ParameterSetName='ManagerdImage', Mandatory)]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string]
-        ${ImageId},
-        #endregion ManagedImageDistributor
-    
-        #region SharedImageDistributor
-        [Parameter(ParameterSetName='SharedImage')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [Boolean]
-        ${ExcludeFromLatest},
-        [Parameter(ParameterSetName='SharedImage', Mandatory)]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string[]]
-        ${ReplicationRegion},
-        [Parameter(ParameterSetName='SharedImage', Mandatory)]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string]
-        ${GalleryImageId},
-        [Parameter(ParameterSetName='SharedImage')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Support.SharedImageStorageAccountType]
-        ${StorageAccountType},
-        #endregion SharedImageDistributor
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.IImageTemplateDistributor[]]
+        # The distribution targets where the image output needs to go to.
+        # To construct, see NOTES section for DISTRIBUTE properties and create a hash table.
+        ${Distribute},
 
         [ArgumentCompleter([Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Support.ResourceIdentityType])]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
@@ -229,11 +111,63 @@ function New-AzImageBuilder {
         [System.String]
         # Verbose error message about the provisioning failure
         ${ProvisioningErrorMessage},
-    
+
+        #region SourceType-PlatformImage
+        [Parameter(ParameterSetName='PlatformImage', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [System.String]
-        # Specifies the type of source image you want to start with.
-        ${SourceType},
+        [Switch]
+        ${SourceTypePlatformImage},
+        [Parameter(ParameterSetName='PlatformImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${Offer},
+        [Parameter(ParameterSetName='PlatformImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${PlanInfoPlanName},
+        [Parameter(ParameterSetName='PlatformImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${PlanInfoPlanProduct},
+        [Parameter(ParameterSetName='PlatformImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${PlanInfoPlanPublisher},
+        [Parameter(ParameterSetName='PlatformImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${Publisher},
+        [Parameter(ParameterSetName='PlatformImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${Sku},
+        [Parameter(ParameterSetName='PlatformImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${Version},
+        #endregion SourceType-PlatformImage
+
+        #region SourceType-ManagedImage
+        [Parameter(ParameterSetName='ManagedImage', Mandatory)]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [Switch]
+        ${SourceTypeManagedImage},
+        [Parameter(ParameterSetName='ManagedImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${ImageId},
+        #endregion SourceType-ManagedImage
+
+        #region SourceType-SharedImageVersion
+        [Parameter(ParameterSetName='SharedImageVersion', Mandatory)]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [Switch]
+        ${SourceTypeSharedImageVersion},
+        [Parameter(ParameterSetName='SharedImageVersion')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${ImageVersionId},
+        #endregion SourceType-SharedImageVersion
     
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Runtime.Info(PossibleTypes=([Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.IResourceTags]))]
@@ -322,36 +256,45 @@ function New-AzImageBuilder {
     
     process {
         try {
-
-            $Parameter = [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.ImageTemplate]::New()
-            $Parameter.BuildTimeoutInMinute = 
-            $Parameter.Customize = 
-            $Parameter.Distribute = 
-            $Parameter.IdentityType = 
-            $Parameter.IdentityUserAssignedIdentity = 
-            $Parameter.LastRunStatusEndTime = 
-            $Parameter.LastRunStatusMessage = 
-            $Parameter.LastRunStatusRunState = 
-            $Parameter.LastRunStatusRunSubState = 
-            $Parameter.LastRunStatusStartTime = 
-            $Parameter.ProvisioningErrorCode = 
-            $Parameter.ProvisioningErrorMessage = 
-            $Parameter.ProvisioningState = 
-            $Parameter.SourceType = 
-            $Parameter.VMProfileOsdiskSizeGb = 
-            $Parameter.VMProfileVmsize = 
-            $Parameter.VnetConfigSubnetId = 
-
-            
             if ($PSBoundParameters.ContainsKey('VMProfileOsdiskSizeInGb')) {
                 $PSBoundParameters.Add('VMProfileOsdiskSizeGb', $PSBoundParameters['VMProfileOsdiskSizeInGb'])
                 $null = $PSBoundParameters.Remove('VMProfileOsdiskSizeInGb')
             }
-            if ($PSBoundParameters.ContainsKey('VMProfileVmSize')) {
-                $PSBoundParameters.Add('VMProfileVmsize', $PSBoundParameters['VMProfileVmSize'])
-                $null = $PSBoundParameters.Remove('VMProfileVmSize')
+            if ($PSBoundParameters.ContainsKey('SourceTypePlatformImage')) {
+                $Source = [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.ImageTemplatePlatformImageSource]::New()
+                $Source.Type = "PlatformImage"
+                $Source.Offer = $Offer
+                $Source.PlanInfoPlanName = $PlanInfoPlanName
+                $Source.PlanInfoPlanProduct = $PlanInfoPlanProduct
+                $Source.PlanInfoPlanPublisher = $PlanInfoPlanPublisher
+                $Source.Publisher = $Publisher
+                $Source.Sku = $Sku
+                $Source.Version = $Version
+                $null = $PSBoundParameters.Remove('SourceTypePlatformImage')
+                $null = $PSBoundParameters.Remove('Offer')
+                $null = $PSBoundParameters.Remove('PlanInfoPlanName')
+                $null = $PSBoundParameters.Remove('PlanInfoPlanProduct')
+                $null = $PSBoundParameters.Remove('PlanInfoPlanPublisher')
+                $null = $PSBoundParameters.Remove('Publisher')
+                $null = $PSBoundParameters.Remove('Sku')
+                $null = $PSBoundParameters.Remove('Version')
+            } elseif ($PSBoundParameters.ContainsKey('SourceTypeManagedImage')) {
+                $Source = [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.ImageTemplateManagedImageSource]::New()
+                $Source.Type = "ManagedImage"
+                $Source.ImageId = $ImageId
+                $null = $PSBoundParameters.Remove('SourceTypeManagedImage')
+                $null = $PSBoundParameters.Remove('ImageId')
+            } elseif ($PSBoundParameters.ContainsKey('SourceTypeSharedImageVersion')) {
+                $Source = [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.ImageTemplateSharedImageVersionSource]::New()
+                $Source.Type = "SharedImageVersion"
+                $Source.ImageVersionId = $ImageVersionId
+                $null = $PSBoundParameters.Remove('SourceTypeSharedImageVersion')
+                $null = $PSBoundParameters.Remove('ImageVersionId')
             }
-            Az.ImageBuilder.internal\New-AzImageBuilderAzImageBuilder @PSBoundParameters
+            $PSBoundParameters.Add('Source', $Source)
+                
+            Az.ImageBuilder.internal\New-AzImageBuilderImageBuilder @PSBoundParameters
+            return $source
         } catch {
             throw
         }
