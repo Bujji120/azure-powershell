@@ -293,7 +293,7 @@ function New-AzImageBuilder {
             }
             $PSBoundParameters.Add('Source', $Source)
                 
-            Az.ImageBuilder.internal\New-AzImageBuilderImageBuilder @PSBoundParameters
+            Az.ImageBuilder.internal\New-AzImageBuilder @PSBoundParameters
             return $source
         } catch {
             throw

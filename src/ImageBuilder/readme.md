@@ -54,6 +54,7 @@ input-file:
 
 title: ImageBuilder
 module-version: 0.0.1
+subject-prefix: ''
 
 directive:
   - where:
@@ -63,7 +64,7 @@ directive:
   - where:
       subject: VirtualMachineImageTemplateRunOutput
     set:
-      subject: RunOutput
+      subject: ImageBuilderRunOutput
   - where:
       subject: VirtualMachineImageTemplate
     set:
