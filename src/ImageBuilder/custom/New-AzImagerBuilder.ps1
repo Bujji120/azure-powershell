@@ -18,6 +18,7 @@ function New-AzImageBuilder {
     [CmdletBinding(PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
     param(
         [Parameter(Mandatory)]
+        [Alias('Name')]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Path')]
         [System.String]
         # The name of the image Template
@@ -292,6 +293,8 @@ function New-AzImageBuilder {
                 $null = $PSBoundParameters.Remove('ImageVersionId')
             }
             $PSBoundParameters.Add('Source', $Source)
+            # $PSBoundParameters.Add('SourceType', $Source.Type)
+            Write-Host $PSBoundParameters
                 
             Az.ImageBuilder.internal\New-AzImageBuilder @PSBoundParameters
             return $source

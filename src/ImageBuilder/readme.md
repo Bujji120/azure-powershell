@@ -53,7 +53,7 @@ input-file:
   - $(repo)/specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2020-02-14/imagebuilder.json
 
 title: ImageBuilder
-module-version: 0.0.1
+module-version: 0.1.0
 subject-prefix: ''
 
 directive:

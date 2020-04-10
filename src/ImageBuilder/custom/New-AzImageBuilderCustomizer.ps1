@@ -18,9 +18,26 @@ function New-AzImageBuilderCustomizer {
     Param(
         #region CustomizerCommon
         [Parameter(Mandatory)]
+        [Alias('Name')]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
         [string]
         ${CustomizerName},
+        [Parameter(ParameterSetName='ShellCustomizer')]
+        [Parameter(ParameterSetName='PowerShellCustomizer')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string[]]
+        ${Inline},
+        [Parameter(ParameterSetName='PowerShellCustomizer')]
+        [Parameter(ParameterSetName='ShellCustomizer')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${ScriptUri},
+        [Parameter(ParameterSetName='ShellCustomizer', Mandatory)]
+        [Parameter(ParameterSetName='FileCustomizer', Mandatory)]
+        [Parameter(ParameterSetName='PowerShellCustomizer', Mandatory)]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${Sha256Checksum},
         #endregion CustomizerCommon
     
         #region FileCustomizer
@@ -31,16 +48,19 @@ function New-AzImageBuilderCustomizer {
         [Parameter(ParameterSetName='FileCustomizer')]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
         [string]
-        ${FileCustomizerDestination},
+        ${Destination},
         [Parameter(ParameterSetName='FileCustomizer')]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
         [string]
-        ${FileCustomizerSha256Checksum},
-        [Parameter(ParameterSetName='FileCustomizer')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string]
-        ${FileCustomizerSourceUri},
+        ${SourceUri},
         #endregion FileCustomizer
+    
+        #region ShellCustomizer
+        [Parameter(ParameterSetName='ShellCustomizer', Mandatory)]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [Switch]
+        ${ShellCustomizer},
+        #endregion ShellCustomizer
     
         #region PowerShellCustomizer
         [Parameter(ParameterSetName='PowerShellCustomizer', Mandatory)]
@@ -49,24 +69,12 @@ function New-AzImageBuilderCustomizer {
         ${PowerShellCustomizer},
         [Parameter(ParameterSetName='PowerShellCustomizer')]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string[]]
-        ${PowerShellCustomizerInline},
-        [Parameter(ParameterSetName='PowerShellCustomizer')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
         [Boolean]
-        ${PowerShellCustomizerRunElevated},
-        [Parameter(ParameterSetName='PowerShellCustomizer')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string]
-        ${PowerShellCustomizerScriptUri},
-        [Parameter(ParameterSetName='PowerShellCustomizer', Mandatory)]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string]
-        ${PowerShellCustomizerSha256Checksum},
+        ${RunElevated},
         [Parameter(ParameterSetName='PowerShellCustomizer')]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
         [int[]]
-        ${PowerShellCustomizerValidExitCode},
+        ${ValidExitCode},
         #endregion PowerShellCustomizer
     
         #region WindowsUpdateCustomizer
@@ -77,15 +85,15 @@ function New-AzImageBuilderCustomizer {
         [Parameter(ParameterSetName='WindowsUpdateCustomizer')]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
         [string[]]
-        ${WindowsUpdateCustomizerFilter},
+        ${Filter},
         [Parameter(ParameterSetName='WindowsUpdateCustomizer')]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
         [string]
-        ${WindowsUpdateCustomizerSearchCriterion},
+        ${SearchCriterion},
         [Parameter(ParameterSetName='WindowsUpdateCustomizer')]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
         [int]
-        ${WindowsUpdateCustomizerUpdateLimit},
+        ${UpdateLimit},
         #endregion WindowsUpdateCustomizer
     
         #region RestartCustomizer
@@ -104,38 +112,19 @@ function New-AzImageBuilderCustomizer {
         [Parameter(ParameterSetName='RestartCustomizer')]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
         [string]
-        ${RestartTimeout},
+        ${RestartTimeout}
         #endregion RestartCustomizer
-    
-        #region ShellCustomizer
-        [Parameter(ParameterSetName='ShellCustomizer', Mandatory)]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [Switch]
-        ${ShellCustomizer},
-        [Parameter(ParameterSetName='ShellCustomizer')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string[]]
-        ${ShellCustomizerInline},
-        [Parameter(ParameterSetName='ShellCustomizer')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string]
-        ${ShellCustomizerScriptUri},
-        [Parameter(ParameterSetName='ShellCustomizer', Mandatory)]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [string]
-        ${ShellCustomizerSha256Checksum}
-        #endregion ShellCustomizer
     )
     
     process {
         if ($PSBoundParameters.ContainsKey('PowerShellCustomizer')) {
             $Customizer = [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.ImageTemplatePowerShellCustomizer]::New()
             $Customizer.Type = "PowerShell"
-            $Customizer.Inline = $PowerShellCustomizerInline
-            $Customizer.RunElevated = $PowerShellCustomizerRunElevated
-            $Customizer.ScriptUri = $PowerShellCustomizerScriptUri
-            $Customizer.Sha256Checksum = $PowerShellCustomizerSha256Checksum
-            $Customizer.ValidExitCode = $PowerShellCustomizerValidExitCode
+            $Customizer.Inline = $Inline
+            $Customizer.RunElevated = $RunElevated
+            $Customizer.ScriptUri = $ScriptUri
+            $Customizer.Sha256Checksum = $Sha256Checksum
+            $Customizer.ValidExitCode = $ValidExitCode
         } elseif ($PSBoundParameters.ContainsKey('WindowsRestartCustomizer')) {
             $Customizer = [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.ImageTemplateRestartCustomizer]::New()
             $Customizer.Type = "WindowsRestart"
@@ -145,21 +134,21 @@ function New-AzImageBuilderCustomizer {
         } elseif ($PSBoundParameters.ContainsKey('WindowsUpdateCustomizer')) {
             $Customizer = [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.ImageTemplateWindowsUpdateCustomizer]::New()
             $Customizer.Type = "WindowsUpdate"
-            $Customizer.Filter = $WindowsUpdateCustomizerFilter
-            $Customizer.SearchCriterion = $WindowsUpdateCustomizerSearchCriterion
-            $Customizer.UpdateLimit = $WindowsUpdateCustomizerUpdateLimit
+            $Customizer.Filter = $Filter
+            $Customizer.SearchCriterion = $SearchCriterion
+            $Customizer.UpdateLimit = $UpdateLimit
         } elseif ($PSBoundParameters.ContainsKey('ShellCustomizer')) {
             $Customizer = [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.ImageTemplateShellCustomizer]::New()
             $Customizer.Type = "Shell"
-            $Customizer.Inline = $ShellCustomizerInline
-            $Customizer.ScriptUri = $ShellCustomizerScriptUri
-            $Customizer.Sha256Checksum = $ShellCustomizerSha256Checksum
+            $Customizer.Inline = $Inline
+            $Customizer.ScriptUri = $ScriptUri
+            $Customizer.Sha256Checksum = $Sha256Checksum
         } elseif ($PSBoundParameters.ContainsKey('FileCustomizer')) {
             $Customizer = [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.ImageTemplateFileCustomizer]::New()
             $Customizer.Type = "File"
-            $Customizer.Destination = $FileCustomizerDestination
-            $Customizer.Sha256Checksum = $FileCustomizerSha256Checksum
-            $Customizer.SourceUri = $FileCustomizerSourceUri
+            $Customizer.Destination = $Destination
+            $Customizer.Sha256Checksum = $Sha256Checksum
+            $Customizer.SourceUri = $SourceUri
         }
         $Customizer.Name = $CustomizerName
 
