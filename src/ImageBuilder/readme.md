@@ -17,7 +17,7 @@ This directory contains the PowerShell module for the ImageBuilder service.
 This module was primarily generated via [AutoRest](https://github.com/Azure/autorest) using the [PowerShell](https://github.com/Azure/autorest.powershell) extension.
 
 ## Module Requirements
-- [Az.Accounts module](https://www.powershellgallery.com/packages/Az.Accounts/), version 1.7.2 or greater
+- [Az.Accounts module](https://www.powershellgallery.com/packages/Az.Accounts/), version 1.7.4 or greater
 
 ## Authentication
 AutoRest does not generate authentication code for the module. Authentication is handled via Az.Accounts by altering the HTTP payload before it is sent.
@@ -68,11 +68,16 @@ directive:
   - where:
       subject: VirtualMachineImageTemplate
     set:
-      subject: ImageBuilder
+      subject: ImageBuilderTemplate
   - where:
       verb: New
-      subject: ImageBuilder
+      subject: ImageBuilderTemplate
     hide: true
+  - where:
+      subject: ImageBuilderTemplate
+      parameter-name: ImageTemplateName
+    set:
+      alias: Name
   - where:
       variant: ^Create$|^CreateViaIdentity$|^CreateViaIdentityExpanded$|^Update$|^UpdateViaIdentity$
     remove: true

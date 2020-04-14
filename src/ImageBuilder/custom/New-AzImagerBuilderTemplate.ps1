@@ -13,53 +13,30 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 
-<#
-.Synopsis
-Create or update a virtual machine image template
-.Description
-Create or update a virtual machine image template
-.Example
-PS C:\> {{ Add code here }}
-
-{{ Add output here }}
-.Example
-PS C:\> {{ Add code here }}
-
-{{ Add output here }}
-
-.Link
-https://docs.microsoft.com/en-us/powershell/module/az.imagebuilder/update-azimagebuildervirtualmachineimagetemplate
-#>
-function Update-AzImageBuilder {
+function New-AzImageBuilderTemplate {
     [OutputType([Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.IImageTemplate])]
-    [CmdletBinding(DefaultParameterSetName='Name', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+    [CmdletBinding(PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
     param(
-        [Parameter(ParameterSetName='Name', Mandatory)]
+        [Parameter(Mandatory)]
+        [Alias('Name')]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Path')]
         [System.String]
         # The name of the image Template
         ${ImageTemplateName},
     
-        [Parameter(ParameterSetName='Name', Mandatory)]
+        [Parameter(Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Path')]
         [System.String]
         # The name of the resource group.
         ${ResourceGroupName},
     
-        [Parameter(ParameterSetName='Name')]
+        [Parameter()]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Path')]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
         [System.String]
         # Subscription credentials which uniquely identify Microsoft Azure subscription.
         # The subscription Id forms part of the URI for every service call.
         ${SubscriptionId},
-    
-        [Parameter(ParameterSetName='InputObject', Mandatory, ValueFromPipeline)]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Path')]
-        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.IImageBuilderIdentity]
-        # Identity Parameter
-        # To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
-        ${InputObject},
     
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
         [System.String]
@@ -71,19 +48,19 @@ function Update-AzImageBuilder {
         # Maximum duration to wait while building the image template.
         # Omit or specify 0 to use the default (4 hours).
         ${BuildTimeoutInMinute},
-    
+
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.IImageTemplateCustomizer[]]
         # Specifies the properties used to describe the customization steps of the image, like Image source etc
         # To construct, see NOTES section for CUSTOMIZE properties and create a hash table.
         ${Customize},
-    
+
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.IImageTemplateDistributor[]]
         # The distribution targets where the image output needs to go to.
         # To construct, see NOTES section for DISTRIBUTE properties and create a hash table.
         ${Distribute},
-    
+
         [ArgumentCompleter([Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Support.ResourceIdentityType])]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Support.ResourceIdentityType]
@@ -135,11 +112,63 @@ function Update-AzImageBuilder {
         [System.String]
         # Verbose error message about the provisioning failure
         ${ProvisioningErrorMessage},
-    
+
+        #region SourceType-PlatformImage
+        [Parameter(ParameterSetName='PlatformImage', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
-        [System.String]
-        # Specifies the type of source image you want to start with.
-        ${SourceType},
+        [Switch]
+        ${SourceTypePlatformImage},
+        [Parameter(ParameterSetName='PlatformImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${Offer},
+        [Parameter(ParameterSetName='PlatformImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${PlanInfoPlanName},
+        [Parameter(ParameterSetName='PlatformImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${PlanInfoPlanProduct},
+        [Parameter(ParameterSetName='PlatformImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${PlanInfoPlanPublisher},
+        [Parameter(ParameterSetName='PlatformImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${Publisher},
+        [Parameter(ParameterSetName='PlatformImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${Sku},
+        [Parameter(ParameterSetName='PlatformImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${Version},
+        #endregion SourceType-PlatformImage
+
+        #region SourceType-ManagedImage
+        [Parameter(ParameterSetName='ManagedImage', Mandatory)]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [Switch]
+        ${SourceTypeManagedImage},
+        [Parameter(ParameterSetName='ManagedImage')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${ImageId},
+        #endregion SourceType-ManagedImage
+
+        #region SourceType-SharedImageVersion
+        [Parameter(ParameterSetName='SharedImageVersion', Mandatory)]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [Switch]
+        ${SourceTypeSharedImageVersion},
+        [Parameter(ParameterSetName='SharedImageVersion')]
+        [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
+        [string]
+        ${ImageVersionId},
+        #endregion SourceType-SharedImageVersion
     
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Category('Body')]
         [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Runtime.Info(PossibleTypes=([Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.IResourceTags]))]
@@ -164,6 +193,7 @@ function Update-AzImageBuilder {
         # Resource id of a pre-existing subnet.
         ${VnetConfigSubnetId},
     
+        #region HideParameter
         [Parameter()]
         [Alias('AzureRMContext', 'AzureCredential')]
         [ValidateNotNull()]
@@ -222,22 +252,52 @@ function Update-AzImageBuilder {
         [System.Management.Automation.SwitchParameter]
         # Use the default credentials for the proxy
         ${ProxyUseDefaultCredentials}
+        #endregion HideParameter
     )
     
     process {
         try {
-
-            VMProfileOsdiskSizeInGb
-            
             if ($PSBoundParameters.ContainsKey('VMProfileOsdiskSizeInGb')) {
                 $PSBoundParameters.Add('VMProfileOsdiskSizeGb', $PSBoundParameters['VMProfileOsdiskSizeInGb'])
                 $null = $PSBoundParameters.Remove('VMProfileOsdiskSizeInGb')
             }
-            if ($PSBoundParameters.ContainsKey('VMProfileVmSize')) {
-                $PSBoundParameters.Add('VMProfileVmsize', $PSBoundParameters['VMProfileVmSize'])
-                $null = $PSBoundParameters.Remove('VMProfileVmSize')
+            if ($PSBoundParameters.ContainsKey('SourceTypePlatformImage')) {
+                $Source = [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.ImageTemplatePlatformImageSource]::New()
+                $Source.Type = "PlatformImage"
+                $Source.Offer = $Offer
+                $Source.PlanInfoPlanName = $PlanInfoPlanName
+                $Source.PlanInfoPlanProduct = $PlanInfoPlanProduct
+                $Source.PlanInfoPlanPublisher = $PlanInfoPlanPublisher
+                $Source.Publisher = $Publisher
+                $Source.Sku = $Sku
+                $Source.Version = $Version
+                $null = $PSBoundParameters.Remove('SourceTypePlatformImage')
+                $null = $PSBoundParameters.Remove('Offer')
+                $null = $PSBoundParameters.Remove('PlanInfoPlanName')
+                $null = $PSBoundParameters.Remove('PlanInfoPlanProduct')
+                $null = $PSBoundParameters.Remove('PlanInfoPlanPublisher')
+                $null = $PSBoundParameters.Remove('Publisher')
+                $null = $PSBoundParameters.Remove('Sku')
+                $null = $PSBoundParameters.Remove('Version')
+            } elseif ($PSBoundParameters.ContainsKey('SourceTypeManagedImage')) {
+                $Source = [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.ImageTemplateManagedImageSource]::New()
+                $Source.Type = "ManagedImage"
+                $Source.ImageId = $ImageId
+                $null = $PSBoundParameters.Remove('SourceTypeManagedImage')
+                $null = $PSBoundParameters.Remove('ImageId')
+            } elseif ($PSBoundParameters.ContainsKey('SourceTypeSharedImageVersion')) {
+                $Source = [Microsoft.Azure.PowerShell.Cmdlets.ImageBuilder.Models.Api20200214.ImageTemplateSharedImageVersionSource]::New()
+                $Source.Type = "SharedImageVersion"
+                $Source.ImageVersionId = $ImageVersionId
+                $null = $PSBoundParameters.Remove('SourceTypeSharedImageVersion')
+                $null = $PSBoundParameters.Remove('ImageVersionId')
             }
-            Az.ImageBuilder.internal\Update-AzImageBuilder @PSBoundParameters
+            $PSBoundParameters.Add('Source', $Source)
+            # $PSBoundParameters.Add('SourceType', $Source.Type)
+            Write-Host $PSBoundParameters
+                
+            Az.ImageBuilder.internal\New-AzImageBuilder @PSBoundParameters
+            return $source
         } catch {
             throw
         }
