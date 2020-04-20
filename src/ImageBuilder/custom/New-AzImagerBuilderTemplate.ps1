@@ -292,11 +292,11 @@ function New-AzImageBuilderTemplate {
                 $null = $PSBoundParameters.Remove('SourceTypeSharedImageVersion')
                 $null = $PSBoundParameters.Remove('ImageVersionId')
             }
-            $PSBoundParameters.Add('Source', $Source)
-            # $PSBoundParameters.Add('SourceType', $Source.Type)
+            # $PSBoundParameters.Add('Source', $Source)
+            $PSBoundParameters.Add('SourceType', $Source.Type)
             Write-Host $PSBoundParameters
                 
-            Az.ImageBuilder.internal\New-AzImageBuilder @PSBoundParameters
+            Az.ImageBuilder.internal\New-AzImageBuilderTemplate @PSBoundParameters
             return $source
         } catch {
             throw
